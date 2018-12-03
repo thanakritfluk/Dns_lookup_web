@@ -1,0 +1,4 @@
+Django==2.1.2
+whitenoise==4.0
+gunicorn==19.9.0
+javascript==2015.32.59
