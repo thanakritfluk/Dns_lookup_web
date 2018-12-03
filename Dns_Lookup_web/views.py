@@ -8,12 +8,16 @@ def welcome(request):
 
 def compute(request):
     url = request.POST.get('url')
-    canonical = find_domain_name(url)
-    address = find_listof_subdomain(url)
-    classes = listof_class(address)
-    class_with_subdomain = zip_lists(address, classes)
-    return render(request, 'welcome.html',
-                  {'canonical': canonical, 'url': url, 'class_with_subdomain': class_with_subdomain})
+    try:
+        canonical = find_domain_name(url)
+        address = find_listof_subdomain(url)
+        classes = listof_class(address)
+        class_with_subdomain = zip_lists(address, classes)
+        return render(request, 'welcome.html',
+                      {'canonical': canonical, 'url': url, 'class_with_subdomain': class_with_subdomain})
+    except:
+        error = 'The domain/hostname is invalid.'
+        return render(request, 'welcome.html', {'error': error})
 
 
 def zip_lists(address, classes):
