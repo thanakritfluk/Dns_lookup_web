@@ -1,10 +1,63 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>DNS Lookup</title>
+    <style>
+        table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 70%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+    </style>
 </head>
+
 <body>
-1234
+<center>
+    <div class="row"><h1>DNS Lookup Application</h1></div>
+<div class="row">
+    <h3>Domain Name: <input class="text" placeholder="Please type a domain name"> <button>Go</button></h3>
+</div>
+</center>
+
+<div class="row">
+    <br><br>
+    <center>
+        <h2>DNS Lookup Table</h2>
+    <table>
+        <tr>
+            <th>Canonical Name</th>
+            <th>Name</th>
+            <th>Address</th>
+        </tr>
+        <tr>
+            <td>youtube-ui.l.google.com</td>
+            <td>www.youtube.com</td>
+            <td>172.217.27.110</td>
+        </tr>
+        <tr>
+            <td>youtube-ui.l.google.com</td>
+            <td>www.youtube.com</td>
+            <td>172.217.194.93</td>
+        </tr>
+        <tr>
+            <td>youtube-ui.l.google.com</td>
+            <td>www.youtube.com</td>
+            <td>74.125.68.93</td>
+        </tr>
+    </table>
+    </center>
+
+</div>
 </body>
 </html>
