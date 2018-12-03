@@ -6,6 +6,20 @@ def welcome(request):
     return render(request, 'welcome.html')
 
 
+def compute(request):
+    url = request.POST.get('url')
+    canonical = find_domain_name(url)
+    address = find_listof_subdomain(url)
+    classes = listof_class(address)
+    class_with_subdomain = zip_lists(address, classes)
+    return render(request, 'welcome.html',
+                  {'canonical': canonical, 'url': url, 'class_with_subdomain': class_with_subdomain})
+
+
+def zip_lists(address, classes):
+    return zip(classes, address)
+
+
 def find_domain_name(url):
     data = socket.gethostbyname_ex(url)
     return str(repr(data[0]))
@@ -32,12 +46,8 @@ def find_ip_class(ip):
         return 'E'
 
 
-# x = 'www.google.com'
-#
-# print("\nDomain Name is: " + find_domain_name(x))
-# list_of_sub = find_listof_subdomain(x)
-# for i in list_of_sub:
-#     print(i)
-#     print(type(i))
-#     print("\nClass " + find_ip_class(i))
-#     print('Sub domain is: ' + i)
+def listof_class(list):
+    listclass = []
+    for i in list:
+        listclass.append(find_ip_class(i))
+    return listclass
