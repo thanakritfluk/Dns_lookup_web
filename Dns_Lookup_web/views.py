@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import socket
+import ipaddress
 
 
 def welcome(request):
@@ -10,9 +11,10 @@ def compute(request):
     url = request.POST.get('url')
     try:
         canonical = find_domain_name(url)
-        address = find_listof_subdomain(url)
-        classes = listof_class(address)
-        class_with_subdomain = zip_lists(address, classes)
+        ipv4_address = find_listof_subdomain(url)
+        ipv6_address = convert_to_ipv6(ipv4_address)
+        classes = listof_class(ipv4_address)
+        class_with_subdomain = zip_lists(ipv4_address, classes, ipv6_address)
         return render(request, 'welcome.html',
                       {'canonical': canonical, 'url': url, 'class_with_subdomain': class_with_subdomain})
     except:
@@ -20,8 +22,8 @@ def compute(request):
         return render(request, 'welcome.html', {'error': error})
 
 
-def zip_lists(address, classes):
-    return zip(classes, address)
+def zip_lists(ipv4_address, classes, ipv6_address):
+    return zip(classes, ipv4_address, ipv6_address)
 
 
 def find_domain_name(url):
@@ -55,3 +57,12 @@ def listof_class(list):
     for i in list:
         listclass.append(find_ip_class(i))
     return listclass
+
+
+def convert_to_ipv6(ipv4):
+    ipv6 = []
+    for ip in ipv4:
+        ipv6.append(ipaddress.IPv6Address('2002::' + ip).compressed)
+    return ipv6
+
+

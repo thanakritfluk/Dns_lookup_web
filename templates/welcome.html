@@ -49,7 +49,8 @@
                 <th>Class</th>
                 <th>Canonical Name</th>
                 <th>Url</th>
-                <th>Address</th>
+                <th>IPv4 Address</th>
+                <th>IPv6 Address</th>
             </tr>
             {% if canonical and url and class_with_subdomain %}
                 {% for i in class_with_subdomain %}
@@ -58,6 +59,7 @@
                         <td>{{ canonical }}</td>
                         <td>{{ url }}</td>
                         <td>{{ i.1 }}</td>
+                        <td>{{ i.2 }}</td>
                     </tr>
                 {% endfor %}
             {% endif %}
