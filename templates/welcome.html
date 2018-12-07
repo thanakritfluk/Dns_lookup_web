@@ -1,9 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>DNS Lookup</title>
     <style>
+        .bg{
+            background: linear-gradient(253deg,#52be97, #3f88c8, #ebf374);
+            background-size: 2000% 2000%;
+            -webkit-animation: Qotingcolor1 58s ease infinite;
+            -moz-animation: Qotingcolor1 58s ease infinite;
+            animation: Qotingcolor1 58s ease infinite;
+            height: 100vh;
+        }
+
+        .overlay{
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        @-webkit-keyframes Qotingcolor1 {
+            0%{background-position:0% 65%}
+            50%{background-position:100% 36%}
+            100%{background-position:0% 65%}
+        }
+        @-moz-keyframes Qotingcolor1 {
+            0%{background-position:0% 65%}
+            50%{background-position:100% 36%}
+            100%{background-position:0% 65%}
+        }
+        @keyframes Qotingcolor1 { 
+            0%{background-position:0% 65%}
+            50%{background-position:100% 36%}
+            100%{background-position:0% 65%}
+        }
+        h1{
+            text-align: center;
+        }
+        
+        h3{
+            text-align: center;
+        }
+
+        #url{
+            margin-left: 10%;
+            width: 80%;
+        }
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -11,37 +51,80 @@
         }
 
         td, th {
-            border: 1px solid #dddddd;
+            border: 1px solid #000000;
             text-align: left;
             padding: 8px;
         }
 
+        table tbody {
+            overflow: auto;
+            height: 70vh;
+        }
+
+        table tbody, table thead
+        {
+            display: block;
+        }
         tr:nth-child(even) {
             background-color: #dddddd;
         }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
 </head>
 
 <body>
-<center>
-    <div class="row"><h1>DNS Lookup Application</h1></div>
+    {% if error %}
+    <script>
+        alert("{{error}}");
+    </script>
+    {% endif %}
     <div class="row">
-        <form action="{% url 'compute' %}" method="post">
-            {% csrf_token %}
-            <h3>Domain Name:
+        <div class="col-4 overlay">
+            <br>
+            <h1>DNS Lookup Application</h1><br><br>
+            <form action="{% url 'compute' %}" method="post">
+                {% csrf_token %}
+                <h3>Domain Name</h3>
                 <input id="url" name="url" class="text" placeholder="Please type a domain name">
                 <button type="submit">Go</button>
-            </h3>
-        </form>
 
+            </form>
+
+        </div>
+        <div class="col-8 bg" align="center">
+            <br><br>
+            <h2>DNS Lookup Table</h2>
+            <div class="table">
+                <table>
+                    <tr>
+                        <th>Class</th>
+                        <th>Canonical Name</th>
+                        <th>Url</th>
+                        <th>IPv4 Address</th>
+                        <th>IPv6 Address</th>
+                    </tr>
+                    {% if canonical and url and class_with_subdomain %}
+                    {% for i in class_with_subdomain %}
+                    <tr>
+                        <td>Class {{ i.0 }}</td>
+                        <td>{{ canonical }}</td>
+                        <td>{{ url }}</td>
+                        <td>{{ i.1 }}</td>
+                        <td>{{ i.2 }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </table>
+            </div>
+
+        </div>
     </div>
-</center>
 
-<div class="row">
-    <br><br>
-    <center>
+    <!-- <div class="row">
+        <br><br>
         {% if error %}
-            <h3 style="color: red">{{ error }}</h3>
+        <h3 style="color: red">{{ error }}</h3>
         {% endif %}
         <h2>DNS Lookup Table</h2>
         <table>
@@ -53,21 +136,20 @@
                 <th>IPv6 Address</th>
             </tr>
             {% if canonical and url and class_with_subdomain %}
-                {% for i in class_with_subdomain %}
-                    <tr>
-                        <td>Class {{ i.0 }}</td>
-                        <td>{{ canonical }}</td>
-                        <td>{{ url }}</td>
-                        <td>{{ i.1 }}</td>
-                        <td>{{ i.2 }}</td>
-                    </tr>
-                {% endfor %}
+            {% for i in class_with_subdomain %}
+            <tr>
+                <td>Class {{ i.0 }}</td>
+                <td>{{ canonical }}</td>
+                <td>{{ url }}</td>
+                <td>{{ i.1 }}</td>
+                <td>{{ i.2 }}</td>
+            </tr>
+            {% endfor %}
             {% endif %}
 
 
         </table>
-    </center>
-
-</div>
+    </div> -->
 </body>
+
 </html>
